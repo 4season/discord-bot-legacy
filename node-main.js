@@ -16,12 +16,13 @@ client.on('ready', () => {
     }
 });
 
-client.on('message', msg => {
+client.on('message', (msg) => {
     try {
         if(msg.content === "/무한~") {
             msg.reply("무~야호~!");
         }
-        const msgStr = msg.split(" ");
+        const msgTnt = msg.content;
+        const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
             msg.reply(getNotice());
         }
