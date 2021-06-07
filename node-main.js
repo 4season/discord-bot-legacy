@@ -7,6 +7,7 @@ const request = require('request'),
     iconv = require('iconv-lite');
 
 const tagArr = [];
+const testArr = [];
 
 
 client.on('ready', () => {
@@ -27,7 +28,9 @@ client.on('message', (msg) => {
         const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
             getNotice();
+            const arrLth = tagArr.length();
             msg.reply(tagArr);
+            msg.reply(testArr);
         }
     } catch (err) {
         msg.reply(err);
@@ -78,6 +81,7 @@ const getNotice = () => {
                 });
             });
             console.log(tagArr);
+            testArr.push(tagArr);
         });
 }
 
