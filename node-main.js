@@ -38,7 +38,7 @@ client.on('message', (msg) => {
     }
 });
 
-const getNotice = () => {
+let getNotice = () => {
     request( {
             url: "https://maplestory.nexon.com/News/Notice",
             method: "GET"
