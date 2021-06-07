@@ -6,6 +6,8 @@ const request = require('request'),
     jschardet = require('jschardet'),
     iconv = require('iconv-lite');
 
+const tagArr = [];
+
 
 client.on('ready', () => {
     try {
@@ -24,14 +26,14 @@ client.on('message', (msg) => {
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
-            msg.reply(`${getNotice()}`);
+            getNotice();
+            msg.reply(tagArr);
         }
     } catch (err) {
         msg.reply(err);
         console.error(err);
     }
 });
-
 
 const getNotice = () => {
     request( {
@@ -52,7 +54,6 @@ const getNotice = () => {
 
             const $ = cheerio.load(body);
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
-            const tagArr = [];
             taglist.forEach((li) => {
                 const TagF = $(li).find("a").first();
                 const path = TagF.attr("href");
@@ -79,5 +80,6 @@ const getNotice = () => {
             console.log(tagArr);
         });
 }
+
 
 client.login(process.env.TOKEN);
