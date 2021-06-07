@@ -79,4 +79,4 @@ const getNotice = () => {
         });
 }
 
-client.login("process.env.TOKEN");
+client.login(process.env.TOKEN);
