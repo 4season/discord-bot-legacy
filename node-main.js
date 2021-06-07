@@ -6,8 +6,8 @@ const request = require('request'),
     jschardet = require('jschardet'),
     iconv = require('iconv-lite');
 
-const tagArr = [];
-const testArr = [];
+let tagArr = [];
+let testArr = [];
 
 
 client.on('ready', () => {
