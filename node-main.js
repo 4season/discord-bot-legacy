@@ -27,9 +27,8 @@ client.on('message', (msg) => {
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
-            function getNotice(msg) {
-                msg.reply(tagArr);
-            }
+            getNotice();
+            msg.reply(tagArr);
             //const arrLth = tagArr.length();
             //msg.reply(`${tagArr}`);
             //msg.reply(`${testArr}`);
@@ -40,7 +39,7 @@ client.on('message', (msg) => {
     }
 });
 
-let getNotice = () => {
+const getNotice = () => {
     request( {
             url: "https://maplestory.nexon.com/News/Notice",
             method: "GET"
@@ -83,7 +82,8 @@ let getNotice = () => {
                 });
             });
             console.log(tagArr);
-            testArr.push(tagArr);
+            return tagArr;
+            //testArr.push(tagArr);
             //msg.reply(tagArr);
         });
 }
