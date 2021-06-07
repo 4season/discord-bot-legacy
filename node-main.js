@@ -29,8 +29,8 @@ client.on('message', (msg) => {
         if(msgStr[0] === "/메이플공지") {
             getNotice();
             //const arrLth = tagArr.length();
-            msg.reply(tagArr);
-            msg.reply(testArr);
+            msg.reply(`${tagArr}`);
+            msg.reply(`${testArr}`);
         }
     } catch (err) {
         msg.reply(err);
