@@ -6,9 +6,6 @@ const request = require('request'),
     jschardet = require('jschardet'),
     iconv = require('iconv-lite');
 
-let tagArr = [];
-let testArr = [];
-
 
 client.on('ready', () => {
     try {
@@ -27,13 +24,7 @@ client.on('message', (msg) => {
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
-            getNotice();
-            for(let i = 0; i < tagArr.length; i++) {
-                msg.reply(tagArr[i]);
-            }
-            //const arrLth = tagArr.length();
-            //msg.reply(`${tagArr}`);
-            //msg.reply(`${testArr}`);
+            getNotice(msg);
         }
     } catch (err) {
         msg.reply(err);
@@ -41,7 +32,7 @@ client.on('message', (msg) => {
     }
 });
 
-const getNotice = () => {
+const getNotice = (msg) => {
     request( {
             url: "https://maplestory.nexon.com/News/Notice",
             method: "GET"
@@ -61,6 +52,7 @@ const getNotice = () => {
             const $ = cheerio.load(body);
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
             taglist.forEach((li) => {
+                let tagArr = [];
                 const TagF = $(li).find("a").first();
                 const path = TagF.attr("href");
                 const url = `https://maplestory.nexon.com${path}`;
@@ -74,20 +66,16 @@ const getNotice = () => {
                 if(date === '') {
                     date = "Null";
                 }
-
                 //console.log(date);
-
-                tagArr.push({
-                    url,
-                    title,
-                    date,
-                });
+                tagArr.push({"url" : url, "title" : title, "date" : date});
             });
-            console.log(tagArr);
-            //return tagArr;
-            //testArr.push(tagArr);
-            //msg.reply(tagArr);
-        });
+            let count = 0;
+            console.log("공지사항");
+            for(let i = 0; i < tagArr.length; i++) {
+                count++;
+                msg.reply(`${count}. ${tagArr[i].title}\n   ${tagArr[i].url}\n   작성일: ${tagArr[i].date}`);
+            }
+    });
 }
 
 
