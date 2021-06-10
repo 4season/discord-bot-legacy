@@ -48,11 +48,10 @@ const getNotice = (msg) => {
             console.log("Ready");
 
             //console.log(body);
-
+            let tagArr = [];
             const $ = cheerio.load(body);
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
             taglist.forEach((li) => {
-                let tagArr = [];
                 const TagF = $(li).find("a").first();
                 const path = TagF.attr("href");
                 const url = `https://maplestory.nexon.com${path}`;
