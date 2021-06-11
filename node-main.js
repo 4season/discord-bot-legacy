@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const msgEmbed0 = new Discord.MessageEmbed();
+let msgEmbed0 = new Discord.MessageEmbed();
 const msgEmbed1 = new Discord.MessageEmbed()
     .setColor('9461ee')
     .setTitle('명령어 목록').setColor('9461ee')
@@ -94,6 +94,7 @@ const getNotice = (msg) => {
                     });
                 }
                 msg.channel.send(msgEmbed0);
+                msgEmbed0 = true;
             }
     });
 }
