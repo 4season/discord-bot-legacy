@@ -91,8 +91,8 @@ const getNotice = (msg) => {
                     });
                 }
                 msg.channel.send(msgEmbed0);
-                return count = 0;
-                return tagArr = [];
+                count = 0;
+                tagArr=null;
     });
 }
 
