@@ -80,18 +80,21 @@ const getNotice = (msg) => {
                 //console.log(date);
                 tagArr.push({"url" : url, "title" : title, "date" : date});
             });
-            let count = 0;
-            msgEmbed0.setColor('9461ee');
-            msgEmbed0.setTitle('공지사항 결과').setColor('9461ee');
-            msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
-            for(let i = 0; i < tagArr.length; i++) {
-                count++;
-                msgEmbed0.addFields({
-                    name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`
-                });
+            if(msgEmbed0 === true) {
+                msg.channel.send(msgEmbed0);
+            } else {
+                let count = 0;
+                msgEmbed0.setColor('9461ee');
+                msgEmbed0.setTitle('공지사항 결과').setColor('9461ee');
+                msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
+                for (let i = 0; i < tagArr.length; i++) {
+                    count++;
+                    msgEmbed0.addFields({
+                        name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`
+                    });
+                }
+                msg.channel.send(msgEmbed0);
             }
-            msg.channel.send(msgEmbed0);
-            return msgEmbed0;
     });
 }
 
