@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-let msgEmbed0 = new Discord.MessageEmbed();
+const msgEmbed0 = new Discord.MessageEmbed();
+msgEmbed0.setColor('9461ee');
+msgEmbed0.setTitle('공지사항 결과').setColor('9461ee');
+msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
 const msgEmbed1 = new Discord.MessageEmbed()
     .setColor('9461ee')
     .setTitle('명령어 목록').setColor('9461ee')
@@ -14,7 +17,6 @@ const request = require('request'),
     jschardet = require('jschardet'),
     iconv = require('iconv-lite');
 
-let tagArr = [];
 
 client.on('ready', () => {
     try {
@@ -61,8 +63,8 @@ const getNotice = (msg) => {
             console.log("Ready");
 
             //console.log(body);
-            let numI;
             const $ = cheerio.load(body);
+            let tagArr = [];
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
             taglist.forEach((li) => {
                 const TagF = $(li).find("a").first();
@@ -81,13 +83,7 @@ const getNotice = (msg) => {
                 //console.log(date);
                 tagArr.push({"url" : url, "title" : title, "date" : date});
             });
-            if(numI === true) {
-                msg.channel.send(msgEmbed0);
-            } else {
                 let count = 0;
-                msgEmbed0.setColor('9461ee');
-                msgEmbed0.setTitle('공지사항 결과').setColor('9461ee');
-                msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
                 for (let i = 0; i < tagArr.length; i++) {
                     count++;
                     msgEmbed0.addFields({
@@ -95,8 +91,8 @@ const getNotice = (msg) => {
                     });
                 }
                 msg.channel.send(msgEmbed0);
-                numI = true;
-            }
+                return count = 0;
+                return tagArr = [];
     });
 }
 
