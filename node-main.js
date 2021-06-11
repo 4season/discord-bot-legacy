@@ -70,15 +70,16 @@ const getNotice = (msg) => {
             });
             let count = 0;
             const msgEmbed = new Discord.MessageEmbed();
-                msgEmbed.setTitle('공지사항 결과');
-                msgEmbed.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.`);
-                for(let i = 0; i < tagArr.length; i++) {
-                    count++;
-                    msgEmbed.addFields({
-                        name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`, inline: true
-                    });
-                }
-                msg.channel.send(msgEmbed);
+            msgEmbed.setColor('9461ee');
+            msgEmbed.setTitle('공지사항 결과');
+            msgEmbed.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.`);
+            for(let i = 0; i < tagArr.length; i++) {
+                count++;
+                msgEmbed.addFields({
+                    name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`
+                });
+            }
+            msg.channel.send(msgEmbed);
     });
 }
 
