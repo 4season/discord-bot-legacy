@@ -14,6 +14,7 @@ const request = require('request'),
     jschardet = require('jschardet'),
     iconv = require('iconv-lite');
 
+let tagArr = [];
 
 client.on('ready', () => {
     try {
@@ -60,7 +61,6 @@ const getNotice = (msg) => {
             console.log("Ready");
 
             //console.log(body);
-            let tagArr = [];
             let numI;
             const $ = cheerio.load(body);
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
