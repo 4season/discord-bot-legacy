@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const msgEmbed0 = new Discord.MessageEmbed();
+const msgEmbed1 = new Discord.MessageEmbed();
 
 const request = require('request'),
     cheerio = require('cheerio'),
@@ -18,6 +20,17 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
+        if(msg.content === '/명령어목록') {
+            msgEmbed1.setColor('9461ee');
+            msgEmbed1.setTitle('명령어 목록');
+            msgEmbed1.setDescription('사용 가능한 명령어 목록입니다. \n\u200B');
+            msgEmbed1.addFields({
+                name: `'/명령어목록'`, value: '사용가능한 명령어 호출', inline: true},
+                {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline:true},
+                {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: true
+            });
+            msg.channel.send(msgEmbed1);
+        }
         if(msg.content === "/무한~") {
             msg.reply("무~야호~!");
         }
@@ -69,17 +82,16 @@ const getNotice = (msg) => {
                 tagArr.push({"url" : url, "title" : title, "date" : date});
             });
             let count = 0;
-            const msgEmbed = new Discord.MessageEmbed();
-            msgEmbed.setColor('9461ee');
-            msgEmbed.setTitle('공지사항 결과');
-            msgEmbed.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.`);
+            msgEmbed0.setColor('9461ee');
+            msgEmbed0.setTitle('공지사항 결과');
+            msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
             for(let i = 0; i < tagArr.length; i++) {
                 count++;
-                msgEmbed.addFields({
+                msgEmbed0.addFields({
                     name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`
                 });
             }
-            msg.channel.send(msgEmbed);
+            msg.channel.send(msgEmbed0);
     });
 }
 
