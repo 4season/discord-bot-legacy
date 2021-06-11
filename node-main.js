@@ -61,6 +61,7 @@ const getNotice = (msg) => {
 
             //console.log(body);
             let tagArr = [];
+            let numI;
             const $ = cheerio.load(body);
             const taglist = $("#container > div > div > div.news_board > ul > li").toArray(); //.news_board
             taglist.forEach((li) => {
@@ -80,7 +81,7 @@ const getNotice = (msg) => {
                 //console.log(date);
                 tagArr.push({"url" : url, "title" : title, "date" : date});
             });
-            if(msgEmbed0 === true) {
+            if(numI === true) {
                 msg.channel.send(msgEmbed0);
             } else {
                 let count = 0;
@@ -94,7 +95,7 @@ const getNotice = (msg) => {
                     });
                 }
                 msg.channel.send(msgEmbed0);
-                msgEmbed0 = true;
+                numI = true;
             }
     });
 }
