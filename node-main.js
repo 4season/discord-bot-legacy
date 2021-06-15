@@ -93,7 +93,7 @@ const getNotice = (msg) => {
                 msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
                 msg.channel.send(msgEmbed0);
                 count = 0;
-                tagArr.length = 0;
+                tagArr.splice(0, `${tagArr.length}`);
     });
 }
 
