@@ -39,7 +39,7 @@ client.on('message', (msg) => {
         const msgStr = msgTnt.split(" ");
         if(msgStr[0] === "/메이플공지") {
             getNotice(msg);
-            tagArr.splice(0, `${tagArr.length}`);
+            tagArr.splice(0, `${tagArr.length-1}`);
         }
     } catch (err) {
         msg.reply(err);
