@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const msgEmbed0 = new Discord.MessageEmbed();
-
 const msgEmbed1 = new Discord.MessageEmbed()
     .setColor('9461ee')
     .setTitle('명령어 목록').setColor('9461ee')
@@ -11,9 +10,9 @@ const msgEmbed1 = new Discord.MessageEmbed()
         {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: true});
 
 const request = require('request'),
-    cheerio = require('cheerio'),
-    jschardet = require('jschardet'),
-    iconv = require('iconv-lite');
+    cheerio = require('cheerio');
+    //jschardet = require('jschardet'),
+    //iconv = require('iconv-lite');
 
 let tagArr = [];
 let count = 0;
@@ -25,7 +24,6 @@ client.on('ready', () => {
     }
     catch (err) {
         console.error(err);
-        return;
     }
 });
 
@@ -47,7 +45,6 @@ client.on('message', (msg) => {
     } catch (err) {
         msg.reply(err);
         console.error(err);
-        return;
     }
 });
 
@@ -57,9 +54,9 @@ const getNotice = (msg) => {
                 url: "https://maplestory.nexon.com/News/Notice",
                 method: "GET"
             },
-            (error, response, body) => {
-                if (error) {
-                    console.error(error);
+            (err, response, body) => {
+                if (err) {
+                    console.error(err);
                     return;
                 } else {
                     (response.statusCode === 200)
@@ -84,20 +81,14 @@ const getNotice = (msg) => {
                         date = "Null";
                     }
 
+                    tagArr.push({"url": url, "title": title, "date": date});
                     console.log(tagArr.length);
 
-                    if (tagArr.length === 0) {
-                        tagArr.push({"url": url, "title": title, "date": date});
-                        emdFor(msg);
-                    } else {
-                        emdFor(msg);
-                    }
-
                 });
+                emdFor(msg);
             });
     } catch (err) {
         console.error(err);
-        return;
     }
 }
 
@@ -108,22 +99,22 @@ const emdFor = (msg) => {
     msgEmbed0.setTitle('공지사항 결과');
     msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
 
-    for(let i = 0; i < tagArr.length; i++) {
+    for(let i = 0; i < tagArr.length+1; i++) {
         if(i < tagArr.length) {
             count++;
             msgEmbed0.addFields({
                 name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`, inline: false
             });
-        } else if(count === tagArr.length) {
+        } else if(i >= tagArr.length) {
             msg.channel.send(msgEmbed0);
             count = 0;
             msgEmbed0.spliceFields(0, tagArr.length-1);
             tagArr.splice(0, tagArr.length-1);
+            console.log(tagArr.length);
             break;
         }
     }} catch (err) {
         console.error(err);
-        return;
     }
 }
 
