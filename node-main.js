@@ -45,7 +45,7 @@ client.on('message', (msg) => {
 
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
-        if (msgStr[0] === "/메이플공지") {
+        if (msg.content === "/메이플공지") {
             getNotice(msg);
         } else if (msgStr[0] === "/메이플공지" && msgStr[1] === 'ON') {
             if (switching === true) {
