@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const msgEmbed0 = new Discord.MessageEmbed()
-    .setColor('9461ee');
+const msgEmbed0 = new Discord.MessageEmbed();
 
 const msgEmbed1 = new Discord.MessageEmbed()
     .setColor('9461ee')
@@ -85,6 +84,7 @@ const getNotice = (msg) => {
                 let count = 0;
                 if(tagArr[0] === '') {
                     tagArr.push({"url": url, "title": title, "date": date});
+                    msgEmbed0.setColor('9461ee');
                     msgEmbed0.setTitle('공지사항 결과');
                     msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
                     emdFor(msg, count);
