@@ -114,14 +114,12 @@ const emdFor = (msg) => {
             });
         } else if(count === tagArr.length) {
             msg.channel.send(msgEmbed0);
+            count = 0;
+            msgEmbed0.spliceFields(0, tagArr.length-1);
+            tagArr.splice(0, tagArr.length-1);
             break;
         }
-    }
-        count = 0;
-        msgEmbed0.spliceFields(0, tagArr.length-1);
-        tagArr.splice(0, tagArr.length-1);
-
-    } catch (err) {
+    }} catch (err) {
         console.error(err);
         return;
     }
