@@ -84,7 +84,9 @@ const getNotice = (msg) => {
                         date = "Null";
                     }
 
-                    if (tagArr[0] === '') {
+                    console.log(tagArr.length);
+
+                    if (tagArr.length === 0) {
                         tagArr.push({"url": url, "title": title, "date": date});
                         emdFor(msg);
                     } else {
