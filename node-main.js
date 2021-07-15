@@ -66,6 +66,7 @@ client.on('message', (msg) => {
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
             msg.channel.send(`현제시각 ${monthSet+1}월 ${dateSet}일 ${comText}요일 ${hourSet}시 ${minuteSet}분 입니다.`);
+            msg.channel.send(`${timeSet}`);
             msg.reply("무~야호~!");
         }
 
