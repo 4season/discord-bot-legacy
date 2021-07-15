@@ -51,7 +51,7 @@ client.on('message', (msg) => {
         }
 
         if (msg.content === '/메이플이벤트') {
-            msg.channel.send(msgEmbed1);
+            msg.channel.send(msgEmbed2);
         }
 
         const msgTnt = msg.content;
