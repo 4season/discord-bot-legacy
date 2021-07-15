@@ -191,6 +191,8 @@ const emdFor0 = (msg) => {
         msgEmbed2.setTitle('이벤트 결과');
         msgEmbed2.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
 
+        console.log(`${tagArr0[0].title}`);
+
         for (let i = 0; i < tagArr0.length+1; i++) {
             if(i < tagArr0.length) {
                 count++;
