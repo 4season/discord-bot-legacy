@@ -136,13 +136,13 @@ const getEvent = (msg) => {
                 console.log(tagArr0.length);
 
                 const $ = cheerio.load(body);
-                const taglist = $("#container > div > div > div.event_board > ul > li").toArray(); //.news_board
-                taglist.forEach((li) => {
-                    const TagF = $(li).find("a").first();
+                const taglist = $("#container > div > div > div.event_board > ul > li > dd").toArray(); //.news_board
+                taglist.forEach((dd) => {
+                    const TagF = $(dd).find("a").first();
                     const path = TagF.attr("href");
                     const url = `https://maplestory.nexon.com${path}`;
                     const title = TagF.text().trim();
-                    const TagL = $(li).find("dd").last();
+                    const TagL = $(dd).find("p").last();
                     let date = TagL.text().trim();
 
                     tagArr0.push({"url": url, "title": title, "date": date});
@@ -195,7 +195,7 @@ const emdFor0 = (msg) => {
             if(i < tagArr0.length) {
                 count++;
                 msgEmbed2.addFields({
-                    name: `${count}. ${tagArr0[i].title} \n 작성일: ${tagArr0[i].date}`, value: `${tagArr0[i].url}`, inline: false
+                    name: `${count}. ${tagArr0[i].title} \n 이벤트기간: ${tagArr0[i].date}`, value: `${tagArr0[i].url}`, inline: false
                 });
             } else if (i >= tagArr0.length) {
                 msg.channel.send(msgEmbed2);
