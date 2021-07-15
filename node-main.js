@@ -9,6 +9,7 @@ const msgEmbed1 = new Discord.MessageEmbed()
         {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
         {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: false},
         {name: `'/메이플이벤트'` , value: '메이플 이벤트 10개를 가져옵니다.', inline: false});
+
 const msgEmbed2 = new Discord.MessageEmbed();
 
 
