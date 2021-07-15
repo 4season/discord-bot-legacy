@@ -44,12 +44,14 @@ client.on('message', (msg) => {
     try {
         let timeSet = new Date();
         let daySet = timeSet.getDay();
+        let dateSet = timeSet.getDate();
+        let monthSet = timeSet.getMonth();
         let hourSet = timeSet.getHours();
         let minuteSet = timeSet.getMinutes();
-        let dayList = ["월", "화", "수", "목", "금", "토", "일"];
-        let dayMatch = (daySet-1);
+        let dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
+        let dayMatch = `${daySet-1}`;
         let comText = dayList[dayMatch];
-        
+
         if (hourSet === 23 && minuteSet === 50) {
             msg.channel.send('@everyone');
             msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
@@ -63,7 +65,7 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현제 ${comText}요일 ${daySet}일 ${hourSet}시 ${minuteSet}분 입니다.`);
+            msg.channel.send(`현제시각 ${monthSet+1}월 ${dateSet}일 ${comText}요일 ${hourSet}시 ${minuteSet}분 입니다.`);
             msg.reply("무~야호~!");
         }
 
