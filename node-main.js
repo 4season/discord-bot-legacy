@@ -51,8 +51,6 @@ client.on('ready', () => {
 client.on('message', (msg) => {
     try {
 
-        msg.channel.send('@everyone');
-
         if (hourSet === '23' && minuteSet === '50') {
             msg.channel.send('@everyone');
             msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
@@ -65,6 +63,7 @@ client.on('message', (msg) => {
         }
 
         if (msg.content === "/무한~") {
+            msg.channel.send('@everyone');
             msg.reply("무~야호~!");
         }
 
