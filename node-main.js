@@ -7,7 +7,9 @@ const msgEmbed1 = new Discord.MessageEmbed()
     .setDescription('사용 가능한 명령어 목록입니다. \n\u200B')
     .addFields({name: `'/명령어목록'`, value: '사용가능한 명령어 호출', inline: false},
         {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
-        {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: false});
+        {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: false},
+        {name: `'/메이플이벤트'` , value: '메이플 이벤트 10개를 가져옵니다.', inline: false});
+const msgEmbed2 = new Discord.MessageEmbed();
 
 
 const request = require('request'),
@@ -16,11 +18,16 @@ const request = require('request'),
     //iconv = require('iconv-lite');
 
 
+let count = 0;
+
 let tagArr = [];
 let noticeArr0 = [];
 let noticeArr1 = [];
-let count = 0;
 let switching = false;
+
+let tagArr0 = [];
+let eventArr0 = [];
+let eventArr1 = [];
 
 
 client.on('ready', () => {
@@ -41,6 +48,10 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             msg.reply("무~야호~!");
+        }
+
+        if (msg.content === '/메이플이벤트') {
+            msg.channel.send(msgEmbed1);
         }
 
         const msgTnt = msg.content;
@@ -94,12 +105,6 @@ const getNotice = (msg) => {
                     const TagL = $(li).find("dd").last();
                     let date = TagL.text().trim();
 
-                    /*
-                    if (date === '') {
-                        date = "Null";
-                    }
-                    */
-
                     tagArr.push({"url": url, "title": title, "date": date});
                     noticeArr0.push({"url": url, "title": title, "date": date});
                     noticeArr1.push({"date": date});
@@ -107,6 +112,45 @@ const getNotice = (msg) => {
 
                 });
                 emdFor(msg);
+            });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+const getEvent = (msg) => {
+    try {
+        request({
+                url: "https://maplestory.nexon.com/News/Event",
+                method: "GET"
+            },
+            (err, response, body) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                } else {
+                    (response.statusCode === 200)
+                }
+                console.log("Ready");
+                console.log(tagArr0.length);
+
+                const $ = cheerio.load(body);
+                const taglist = $("#container > div > div > div.event_board > ul > li").toArray(); //.news_board
+                taglist.forEach((li) => {
+                    const TagF = $(li).find("a").first();
+                    const path = TagF.attr("href");
+                    const url = `https://maplestory.nexon.com${path}`;
+                    const title = TagF.text().trim();
+                    const TagL = $(li).find("dd").last();
+                    let date = TagL.text().trim();
+
+                    tagArr0.push({"url": url, "title": title, "date": date});
+                    eventArr0.push({"url": url, "title": title, "date": date});
+                    eventArr1.push({"date": date});
+                    console.log(tagArr0.length);
+
+                });
+                emdFor0(msg);
             });
     } catch (err) {
         console.error(err);
@@ -135,6 +179,32 @@ const emdFor = (msg) => {
             break;
         }
     }} catch (err) {
+        console.error(err);
+    }
+}
+
+const emdFor0 = (msg) => {
+    try {
+
+        msgEmbed1.setColor('9461ee');
+        msgEmbed1.setTitle('이벤트 결과');
+        msgEmbed1.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
+
+        for (let i = 0; i < tagArr0.length+1; i++) {
+            if(i < tagArr0.length) {
+                count++;
+                msgEmbed1.addFields({
+                    name: `${count}. ${tagArr0[i].title} \n 작성일: ${tagArr0[i].date}`, value: `${tagArr0[i].url}`, inline: false
+                });
+            } else if (i >= tagArr0.length) {
+                msg.channel.send(msgEmbed1);
+                count = 0;
+                msgEmbed1.spliceFields(0, tagArr0.length);
+                tagArr0.splice(0, tagArr0.length);
+                console.log(tagArr0.length);
+                break;
+            }
+        }} catch (err) {
         console.error(err);
     }
 }
