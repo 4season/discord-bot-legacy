@@ -48,6 +48,7 @@ client.on('message', (msg) => {
         let monthSet = timeSet.getMonth();
         let hourSet = timeSet.getHours();
         let minuteSet = timeSet.getMinutes();
+        let ctuSet = timeSet.getTimezoneOffset();
         let dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         let dayMatch = `${daySet-1}`;
         let comText = dayList[dayMatch];
@@ -66,7 +67,7 @@ client.on('message', (msg) => {
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
             msg.channel.send(`현제시각 ${monthSet+1}월 ${dateSet}일 ${comText}요일 ${hourSet}시 ${minuteSet}분 입니다.`);
-            msg.channel.send(`${timeSet}`);
+            msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
 
