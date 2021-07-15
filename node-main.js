@@ -141,7 +141,8 @@ const getEvent = (msg) => {
                     const TagF = $(dl).find("a").first();
                     const path = TagF.attr("href");
                     const url = `https://maplestory.nexon.com${path}`;
-                    const title = TagF.text();
+                    const TagC = $(dl).find("dd > p > a");
+                    const title = TagC.text().trim();
                     const TagL = $(dl).find("p").last();
                     let date = TagL.text().trim();
 
