@@ -51,13 +51,13 @@ client.on('ready', () => {
 client.on('message', (msg) => {
     try {
 
-        msg.everyone('@everyone');
+        msg.channel.send('@everyone');
 
         if (hourSet === '23' && minuteSet === '50') {
-            msg.everyone('@everyone');
-            msg.reply(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
-            msg.reply("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
-            msg.reply("길보장소는 20세이상채널 루타비스 입니다.");
+            msg.channel.send('@everyone');
+            msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
+            msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
+            msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
         }
 
         if (msg.content === '/명령어목록') {
