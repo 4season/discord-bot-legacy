@@ -136,13 +136,13 @@ const getEvent = (msg) => {
                 console.log(tagArr0.length);
 
                 const $ = cheerio.load(body);
-                const taglist = $("#container > div > div > div.event_board > ul > li > dd").toArray(); //.news_board
-                taglist.forEach((dd) => {
-                    const TagF = $(dd).find("a").first();
+                const taglist = $("#container > div > div > div.event_board > ul > li > div > dl").toArray(); //.news_board
+                taglist.forEach((dl) => {
+                    const TagF = $(dl).find("a").first();
                     const path = TagF.attr("href");
                     const url = `https://maplestory.nexon.com${path}`;
                     const title = TagF.text().trim();
-                    const TagL = $(dd).find("p").last();
+                    const TagL = $(dl).find("p").last();
                     let date = TagL.text().trim();
 
                     tagArr0.push({"url": url, "title": title, "date": date});
