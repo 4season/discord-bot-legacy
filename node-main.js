@@ -51,7 +51,7 @@ client.on('ready', () => {
 client.on('message', (msg) => {
     try {
 
-        if (hourSet === '23' && minuteSet === '50') {
+        if (hourSet === 23 && minuteSet === 50) {
             msg.channel.send('@everyone');
             msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
             msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
@@ -63,7 +63,8 @@ client.on('message', (msg) => {
         }
 
         if (msg.content === "/무한~") {
-            msg.channel.send('@everyone');
+            //msg.channel.send('@everyone');
+            msg.channel.send(`현제 ${comText}요일 ${daySet}일 ${hourSet}시 ${minuteSet}분 입니다.`);
             msg.reply("무~야호~!");
         }
 
@@ -208,7 +209,7 @@ const emdFor0 = (msg) => {
         msgEmbed2.setTitle('이벤트 결과');
         msgEmbed2.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
 
-        console.log(`${tagArr0[0].title}`);
+        //console.log(`${tagArr0[0].title}`);
 
         for (let i = 0; i < tagArr0.length+1; i++) {
             if(i < tagArr0.length) {
