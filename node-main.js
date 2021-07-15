@@ -186,20 +186,20 @@ const emdFor = (msg) => {
 const emdFor0 = (msg) => {
     try {
 
-        msgEmbed1.setColor('9461ee');
-        msgEmbed1.setTitle('이벤트 결과');
-        msgEmbed1.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
+        msgEmbed2.setColor('9461ee');
+        msgEmbed2.setTitle('이벤트 결과');
+        msgEmbed2.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
 
         for (let i = 0; i < tagArr0.length+1; i++) {
             if(i < tagArr0.length) {
                 count++;
-                msgEmbed1.addFields({
+                msgEmbed2.addFields({
                     name: `${count}. ${tagArr0[i].title} \n 작성일: ${tagArr0[i].date}`, value: `${tagArr0[i].url}`, inline: false
                 });
             } else if (i >= tagArr0.length) {
-                msg.channel.send(msgEmbed1);
+                msg.channel.send(msgEmbed2);
                 count = 0;
-                msgEmbed1.spliceFields(0, tagArr0.length);
+                msgEmbed2.spliceFields(0, tagArr0.length);
                 tagArr0.splice(0, tagArr0.length);
                 console.log(tagArr0.length);
                 break;
