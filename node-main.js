@@ -20,14 +20,6 @@ const request = require('request'),
 
 
 let count = 0;
-let timeSet = new Date();
-let daySet = timeSet.getDay();
-let hourSet = timeSet.getHours();
-let minuteSet = timeSet.getMinutes();
-let dayList = ["월", "화", "수", "목", "금", "토", "일"];
-let dayMatch = (daySet-1);
-let comText = dayList[dayMatch];
-
 
 let tagArr = [];
 let noticeArr0 = [];
@@ -50,7 +42,14 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
-
+        let timeSet = new Date();
+        let daySet = timeSet.getDay();
+        let hourSet = timeSet.getHours();
+        let minuteSet = timeSet.getMinutes();
+        let dayList = ["월", "화", "수", "목", "금", "토", "일"];
+        let dayMatch = (daySet-1);
+        let comText = dayList[dayMatch];
+        
         if (hourSet === 23 && minuteSet === 50) {
             msg.channel.send('@everyone');
             msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
