@@ -7,8 +7,8 @@ const msgEmbed1 = new Discord.MessageEmbed()
     .setDescription('사용 가능한 명령어 목록입니다. \n\u200B')
     .addFields({name: `'/명령어목록'`, value: '사용가능한 명령어 호출', inline: false},
         {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
-        {name: `'/메이플공지'`, value: '메이플 공지사항 10개를 가져옵니다.', inline: false},
-        {name: `'/메이플이벤트'` , value: '메이플 이벤트 10개를 가져옵니다.', inline: false});
+        {name: `'/메이플공지'`, value: '메이플 공지사항의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
+        {name: `'/메이플이벤트'` , value: '메이플 이벤트의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false});
 
 const msgEmbed2 = new Discord.MessageEmbed();
 
@@ -20,6 +20,14 @@ const request = require('request'),
 
 
 let count = 0;
+let timeSet = new Date();
+let daySet = timeSet.getDay();
+let hourSet = timeSet.getHours();
+let minuteSet = timeSet.getMinutes();
+let dayList = ["월", "화", "수", "목", "금", "토", "일"];
+let dayMatch = (daySet-1);
+let comText = dayList[dayMatch];
+
 
 let tagArr = [];
 let noticeArr0 = [];
@@ -42,6 +50,15 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
+
+        msg.everyone('@everyone');
+
+        if (hourSet === '23' && minuteSet === '50') {
+            msg.everyone('@everyone');
+            msg.reply(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
+            msg.reply("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
+            msg.reply("길보장소는 20세이상채널 루타비스 입니다.");
+        }
 
         if (msg.content === '/명령어목록') {
             msg.channel.send(msgEmbed1);
