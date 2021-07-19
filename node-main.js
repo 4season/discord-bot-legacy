@@ -75,20 +75,6 @@ client.on('message', (msg) => {
             msg.reply("무~야호~!");
         }
 
-        const guild_alam = ( ) => {
-            if (switching_boos === true) {
-                if (hourGet === 23 && minuteGet === 50) {
-                    msg.channel.send('@everyone');
-                    msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
-                    msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
-                    msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
-                }
-            }
-            else {
-                switching_boos = false;
-            }
-        }
-
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
         if (msg.content === "/길보알림") {
@@ -100,7 +86,6 @@ client.on('message', (msg) => {
             } else {
                 switching_boos = true;
                 msg.reply("길드보스 알림기능이 설정되었습니다.");
-                guild_alam();
             }
         } else if (msgStr[0] === "/길보알림" && msgStr[1] === 'OFF') {
             if (switching_boos === false) {
@@ -108,6 +93,15 @@ client.on('message', (msg) => {
             } else {
                 switching_boos = false;
                 msg.reply("길드보스 알림기능이 해제되었습니다.");
+            }
+        }
+
+        if (switching_boos === true) {
+            if (hourGet === 23 && minuteGet === 50) {
+                msg.channel.send('@everyone');
+                msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
+                msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
+                msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
             }
         }
 
