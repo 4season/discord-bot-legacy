@@ -46,7 +46,8 @@ client.on('message', (msg) => {
         let daySet = timeSet.getDay();
         let dateSet = timeSet.getDate();
         let monthSet = timeSet.getMonth();
-        let hourSet = timeSet.getHours();
+        let hourSet_get = timeSet.getHours();
+        let hourSet = timeSet.setHours(`${hourSet_get+9}`);
         let minuteSet = timeSet.getMinutes();
         let ctuSet = timeSet.getTimezoneOffset();
         let dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
@@ -139,6 +140,32 @@ const getNotice = (msg) => {
     }
 }
 
+const emdFor = (msg) => {
+    try {
+
+        msgEmbed0.setColor('9461ee');
+        msgEmbed0.setTitle('공지사항 결과');
+        msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
+
+        for (let i = 0; i < tagArr.length+1; i++) {
+            if(i < tagArr.length) {
+                count++;
+                msgEmbed0.addFields({
+                    name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`, inline: false
+                });
+            } else if (i >= tagArr.length) {
+                msg.channel.send(msgEmbed0);
+                count = 0;
+                msgEmbed0.spliceFields(0, tagArr.length);
+                tagArr.splice(0, tagArr.length);
+                console.log(tagArr.length);
+                break;
+            }
+        }} catch (err) {
+        console.error(err);
+    }
+}
+
 const getEvent = (msg) => {
     try {
         request({
@@ -175,32 +202,6 @@ const getEvent = (msg) => {
                 emdFor0(msg);
             });
     } catch (err) {
-        console.error(err);
-    }
-}
-
-const emdFor = (msg) => {
-    try {
-
-    msgEmbed0.setColor('9461ee');
-    msgEmbed0.setTitle('공지사항 결과');
-    msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
-
-    for (let i = 0; i < tagArr.length+1; i++) {
-        if(i < tagArr.length) {
-            count++;
-            msgEmbed0.addFields({
-                name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`, inline: false
-            });
-        } else if (i >= tagArr.length) {
-            msg.channel.send(msgEmbed0);
-            count = 0;
-            msgEmbed0.spliceFields(0, tagArr.length);
-            tagArr.splice(0, tagArr.length);
-            console.log(tagArr.length);
-            break;
-        }
-    }} catch (err) {
         console.error(err);
     }
 }
