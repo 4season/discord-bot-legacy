@@ -42,22 +42,29 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
-        let timeSet = new Date();
-        let daySet = timeSet.getDay();
-        let dateSet = timeSet.getDate();
-        let monthSet = timeSet.getMonth();
-        let hourSet_get = timeSet.getHours();
-        let hourSet = timeSet.setHours(hourSet_get+(9*60*60*1000));
-        //let hourSet = hourSet_kst.toString();
-        let minuteSet = timeSet.getMinutes();
-        let ctuSet = timeSet.getTimezoneOffset();
-        let dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
-        let dayMatch = `${daySet-1}`;
-        let comText = dayList[dayMatch];
+        let timezoneGet = new Date();
+        let timezoneGet_time = timezoneGet.getTime();
+        let timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
+        let timeFormat_KST = new Date(timezoneSet);
+        let monthGet = timeFormat_KST.getMonth();
+        let dayGet = timeFormat_KST.getDay();
+        let hourGet = timeFormat_KST.getHours();
+        let minuteGet = timeFormat_KST.getMinutes();
 
-        if (hourSet === 23 && minuteSet === 50) {
+        const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
+        const day_toString = ( ) => {
+            if (dayGet === 0) {
+                dayList[6];
+            }
+            else {
+                let dayMatch = dayGet - 1;
+                dayList[dayMatch];
+            }
+        }
+
+        if (hourGet === 23 && minuteGet === 50) {
             msg.channel.send('@everyone');
-            msg.channel.send(`오늘은 ${comText}요일!! /n 내일이 되기 10분 전이에요~`);
+            msg.channel.send(`오늘은 ${day_toString}요일!! /n 내일이 되기 10분 전이에요~`);
             msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
             msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
         }
@@ -68,8 +75,8 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현제시각 ${monthSet+1}월 ${dateSet}일 ${comText}요일 ${hourSet}시 ${minuteSet}분 입니다.`);
-            msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
+            msg.channel.send(`현제시각 ${monthGet+1}월 ${dayGet}일 ${day_toString}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
+            //msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
 
