@@ -1,30 +1,18 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const msgEmbed0 = new Discord.MessageEmbed();
-const msgEmbed1 = new Discord.MessageEmbed()
-    .setColor('9461ee')
-    .setTitle('명령어 목록')
-    .setDescription('사용 가능한 명령어 목록입니다. \n\u200B')
-    .addFields({name: `'/명령어목록'`, value: '사용가능한 명령어 호출', inline: false},
-        {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
-        {name: `'/메이플공지'`, value: '메이플 공지사항의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
-        {name: `'/메이플이벤트'` , value: '메이플 이벤트의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false});
-
-const msgEmbed2 = new Discord.MessageEmbed();
-
 
 const request = require('request'),
     cheerio = require('cheerio');
-    //jschardet = require('jschardet'),
     //iconv = require('iconv-lite');
 
 
 let count = 0;
+let switching_boos = false;
 
 let tagArr = [];
 let noticeArr0 = [];
 let noticeArr1 = [];
-let switching = false;
+//let switching = false;
 
 let tagArr0 = [];
 let eventArr0 = [];
@@ -42,15 +30,15 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
-        let timezoneGet = new Date();
-        let timezoneGet_time = timezoneGet.getTime();
-        let timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
-        let timeFormat_KST = new Date(timezoneSet);
-        let monthGet = timeFormat_KST.getMonth();
-        let dateGet = timeFormat_KST.getDate();
-        let dayGet = timeFormat_KST.getDay();
-        let hourGet = timeFormat_KST.getHours();
-        let minuteGet = timeFormat_KST.getMinutes();
+        const timezoneGet = new Date();
+        const timezoneGet_time = timezoneGet.getTime();
+        const timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
+        const timeFormat_KST = new Date(timezoneSet);
+        const monthGet = timeFormat_KST.getMonth();
+        const dateGet = timeFormat_KST.getDate();
+        const dayGet = timeFormat_KST.getDay();
+        const hourGet = timeFormat_KST.getHours();
+        const minuteGet = timeFormat_KST.getMinutes();
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         const day_toString = ( ) => {
@@ -65,15 +53,18 @@ client.on('message', (msg) => {
             }
         }
 
-        if (hourGet === 23 && minuteGet === 50) {
-            msg.channel.send('@everyone');
-            msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
-            msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
-            msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
-        }
-
         if (msg.content === '/명령어목록') {
-            msg.channel.send(msgEmbed1);
+            const msgEmbed = new Discord.MessageEmbed();
+            msgEmbed.setColor('9461ee');
+            msgEmbed.setTitle('명령어 목록');
+            msgEmbed.setDescription('사용 가능한 명령어 목록입니다. \n\u200B');
+            msgEmbed.addFields(
+                {name: `'/명령어목록'`, value: '사용가능한 명령어 호출', inline: false},
+                {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
+                {name: `'/메이플공지'`, value: '메이플 공지사항의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
+                {name: `'/메이플이벤트'` , value: '메이플 이벤트의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
+                {name: `'/길드보스 ON/OFF'`, value: '매일 오후 11시50분에 알리는 길드알림을 설정합니다.', inline: false});
+            msg.channel.send(msgEmbed);
         }
 
         if (msg.content === "/무한~") {
@@ -84,28 +75,48 @@ client.on('message', (msg) => {
             msg.reply("무~야호~!");
         }
 
-        if (msg.content === '/메이플이벤트') {
-            getEvent(msg);
+        const guild_alam = ( ) => {
+            if (switching_boos === true) {
+                if (hourGet === 23 && minuteGet === 50) {
+                    msg.channel.send('@everyone');
+                    msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
+                    msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
+                    msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
+                }
+            }
+            else {
+                switching_boos = false;
+            }
         }
 
         const msgTnt = msg.content;
         const msgStr = msgTnt.split(" ");
+        if (msg.content === "/길보알림") {
+            msg.reply("ON / OFF 로 설정을 변경하실수 있습니다.");
+            msg.reply(`현제상태 '${switching_boos}'`);
+        } else if (msgStr[0] === "/길보알림" && msgStr[1] === 'ON') {
+            if (switching_boos === true) {
+                msg.reply("길드보스 알림기능이 이미 설정된 상태 입니다.");
+            } else {
+                switching_boos = true;
+                msg.reply("길드보스 알림기능이 설정되었습니다.");
+                guild_alam();
+            }
+        } else if (msgStr[0] === "/길보알림" && msgStr[1] === 'OFF') {
+            if (switching_boos === false) {
+                msg.reply("길드보스 알림기능이 이미 해제된 상태 입니다.");
+            } else {
+                switching_boos = false;
+                msg.reply("길드보스 알림기능이 해제되었습니다.");
+            }
+        }
+
+        if (msg.content === '/메이플이벤트') {
+            getEvent(msg);
+        }
+
         if (msg.content === "/메이플공지") {
             getNotice(msg);
-        } else if (msgStr[0] === "/메이플공지" && msgStr[1] === 'ON') {
-            if (switching === true) {
-                msg.reply("공지사항 알림기능이 이미 설정된 상태 입니다.");
-            } else {
-                switching = true;
-                msg.reply("공지사항 알림기능이 설정되었습니다.");
-            }
-        } else if (msgStr[0] === "/메이플공지" && msgStr[1] === 'OFF') {
-            if (switching === false) {
-                msg.reply("공지사항 알림기능이 이미 해제된 상태 입니다.");
-            } else {
-                switching = false;
-                msg.reply("공지사항 알림기능이 해제되었습니다.");
-            }
         }
 
     } catch (err) {
@@ -145,30 +156,30 @@ const getNotice = (msg) => {
                     console.log(tagArr.length);
 
                 });
-                emdFor(msg);
+                emdFor_Notice(msg);
             });
     } catch (err) {
         console.error(err);
     }
 }
 
-const emdFor = (msg) => {
+const emdFor_Notice = (msg) => {
     try {
-
-        msgEmbed0.setColor('9461ee');
-        msgEmbed0.setTitle('공지사항 결과');
-        msgEmbed0.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
+        const msgEmbed = new Discord.MessageEmbed();
+        msgEmbed.setColor('9461ee');
+        msgEmbed.setTitle('공지사항 결과');
+        msgEmbed.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
 
         for (let i = 0; i < tagArr.length+1; i++) {
             if(i < tagArr.length) {
                 count++;
-                msgEmbed0.addFields({
+                msgEmbed.addFields({
                     name: `${count}. ${tagArr[i].title} \n 작성일: ${tagArr[i].date}`, value: `${tagArr[i].url}`, inline: false
                 });
             } else if (i >= tagArr.length) {
-                msg.channel.send(msgEmbed0);
+                msg.channel.send(msgEmbed);
                 count = 0;
-                msgEmbed0.spliceFields(0, tagArr.length);
+                msgEmbed.spliceFields(0, tagArr.length);
                 tagArr.splice(0, tagArr.length);
                 console.log(tagArr.length);
                 break;
@@ -211,32 +222,32 @@ const getEvent = (msg) => {
                     console.log(tagArr0.length);
 
                 });
-                emdFor0(msg);
+                emdFor_Event(msg);
             });
     } catch (err) {
         console.error(err);
     }
 }
 
-const emdFor0 = (msg) => {
+const emdFor_Event = (msg) => {
     try {
-
-        msgEmbed2.setColor('9461ee');
-        msgEmbed2.setTitle('이벤트 결과');
-        msgEmbed2.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
+        const msgEmbed = new Discord.MessageEmbed();
+        msgEmbed.setColor('9461ee');
+        msgEmbed.setTitle('이벤트 결과');
+        msgEmbed.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
 
         //console.log(`${tagArr0[0].title}`);
 
         for (let i = 0; i < tagArr0.length+1; i++) {
             if(i < tagArr0.length) {
                 count++;
-                msgEmbed2.addFields({
+                msgEmbed.addFields({
                     name: `${count}. ${tagArr0[i].title} \n 이벤트기간: ${tagArr0[i].date}`, value: `${tagArr0[i].url}`, inline: false
                 });
             } else if (i >= tagArr0.length) {
-                msg.channel.send(msgEmbed2);
+                msg.channel.send(msgEmbed);
                 count = 0;
-                msgEmbed2.spliceFields(0, tagArr0.length);
+                msgEmbed.spliceFields(0, tagArr0.length);
                 tagArr0.splice(0, tagArr0.length);
                 console.log(tagArr0.length);
                 break;
