@@ -53,19 +53,21 @@ client.on('message', (msg) => {
         let minuteGet = timeFormat_KST.getMinutes();
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
-        let day_toString = () => {
+        let day_toString = (data) => {
             if (dayGet === 0) {
                 dayList[6];
+                return data;
             }
             else {
                 let dayMatch = dayGet - 1;
                 dayList[dayMatch];
+                return data;
             }
         }
 
         if (hourGet === 23 && minuteGet === 50) {
             msg.channel.send('@everyone');
-            msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
+            msg.channel.send(`오늘은 ${day_toString(data)}요일!! /n 내일이 되기 10분 전이에요~`);
             msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
             msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
         }
@@ -76,7 +78,7 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현제시각 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
+            msg.channel.send(`현제시각 ${monthGet+1}월 ${dateGet}일 ${day_toString(data)}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
             //msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
