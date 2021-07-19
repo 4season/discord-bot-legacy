@@ -53,15 +53,16 @@ client.on('message', (msg) => {
         let minuteGet = timeFormat_KST.getMinutes();
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
-        const day_toString = (data) => {
+        const day_toString = ( ) => {
             if (dayGet === 0) {
-                dayList[6];
+                const data_A = dayList[6];
+                return data_A;
             }
             else {
                 const dayMatch = dayGet - 1;
-                dayList[dayMatch];
+                const data_B = dayList[dayMatch];
+                return data_B;
             }
-            return data;
         }
 
         if (hourGet === 23 && minuteGet === 50) {
