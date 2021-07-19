@@ -47,12 +47,13 @@ client.on('message', (msg) => {
         let timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
         let timeFormat_KST = new Date(timezoneSet);
         let monthGet = timeFormat_KST.getMonth();
+        let dateGet = timeFormat_KST.getDate();
         let dayGet = timeFormat_KST.getDay();
         let hourGet = timeFormat_KST.getHours();
         let minuteGet = timeFormat_KST.getMinutes();
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
-        const day_toString = ( ) => {
+        let day_toString = () => {
             if (dayGet === 0) {
                 dayList[6];
             }
@@ -75,7 +76,7 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현제시각 ${monthGet+1}월 ${dayGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
+            msg.channel.send(`현제시각 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
             //msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
