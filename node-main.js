@@ -63,7 +63,7 @@ client.on('message', (msg) => {
                 {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
                 {name: `'/메이플공지'`, value: '메이플 공지사항의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
                 {name: `'/메이플이벤트'` , value: '메이플 이벤트의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
-                {name: `'/길드보스 ON/OFF'`, value: '매일 오후 11시50분에 알리는 길드알림을 설정합니다.', inline: false});
+                {name: `'/길보알림 ON/OFF'`, value: '매일 오후 11시50분에 알리는 길드알림을 설정합니다.', inline: false});
             msg.channel.send(msgEmbed);
         }
 
