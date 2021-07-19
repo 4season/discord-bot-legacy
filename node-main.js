@@ -55,14 +55,13 @@ client.on('message', (msg) => {
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         const day_toString = (data) => {
             if (dayGet === 0) {
-                dayList[6];
-                return data;
+                dayList[6].toString();
             }
             else {
                 let dayMatch = dayGet - 1;
-                dayList[dayMatch];
-                return data;
+                dayList[dayMatch].toString();
             }
+            return data;
         }
 
         if (hourGet === 23 && minuteGet === 50) {
