@@ -9,6 +9,9 @@ const request = require('request'),
 let count = 0;
 let switching_boos = false;
 
+const msgTnt = msg.content;
+const msgStr = msgTnt.split(" ");
+
 let tagArr = [];
 let noticeArr0 = [];
 let noticeArr1 = [];
@@ -69,14 +72,12 @@ client.on('message', (msg) => {
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현제시각 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
+            msg.channel.send(`현재시각 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
             msg.channel.send(typeof day_toString);
             //msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
 
-        const msgTnt = msg.content;
-        const msgStr = msgTnt.split(" ");
         if (msg.content === "/길보알림") {
             msg.reply("ON / OFF 로 설정을 변경하실수 있습니다.");
             msg.reply(`현제상태 '${switching_boos}'`);
@@ -109,8 +110,16 @@ client.on('message', (msg) => {
             getEvent(msg);
         }
 
-        if (msg.content === "/메이플공지") {
+        if (msg.content === '/메이플공지') {
             getNotice(msg);
+        }
+
+        if (msg.content === '/캐릭터정보') {
+            msg.channel.send("캐릭터 닉네임을 정확하게 입력해 주세요.");
+        }
+        else if (msgStr[0] === '/캐릭터정보') {
+            const msgData = msgStr[1];
+            getRanking(msg, msgData);
         }
 
     } catch (err) {
@@ -247,6 +256,45 @@ const emdFor_Event = (msg) => {
                 break;
             }
         }} catch (err) {
+        console.error(err);
+    }
+}
+
+const getRanking = (msg, msgData) => {
+    try {
+        request({
+                url: `https://maplestory.nexon.com/Ranking/World/Total?c=${msgData}`,
+                method: "GET"
+            },
+            (err, response, body) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                } else {
+                    (response.statusCode === 200)
+                }
+                console.log("Ready");
+                console.log(tagArr.length);
+
+                const $ = cheerio.load(body);
+                const taglist = $("#container > div > div > div > div.rank_table_wrap > table > tbody > tr.search_com_chk").toArray(); //.news_board
+                taglist.forEach((tr) => {
+                    const TagF = $(tr).find("td.lest > span.char_img > img").first();
+                    const imgUrl = TagF.attr("class src");
+                    const TagN = $(tr).find("td.left > dl > dt > a").last();
+                    const Name = TagN.text().trim();
+                    const TagW = $(tr).find("td.left > dl > dd")
+                    const Work = TagW.text().trim();
+
+                    tagArr.push({"url": url, "title": title, "date": date});
+                    noticeArr0.push({"url": url, "title": title, "date": date});
+                    noticeArr1.push({"date": date});
+                    console.log(tagArr.length);
+
+                });
+                emdFor_Notice(msg);
+            });
+    } catch (err) {
         console.error(err);
     }
 }
