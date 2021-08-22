@@ -45,9 +45,6 @@ client.on('message', (msg) => {
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         const day_toString = ( ) => {
 
-            const msgTnt = msg.content;
-            const msgStr = msgTnt.split(" ");
-            
             if (dayGet === 0) {
                 const data_A = dayList[6];
                 return data_A;
@@ -116,6 +113,9 @@ client.on('message', (msg) => {
         if (msg.content === '/메이플공지') {
             getNotice(msg);
         }
+
+        const msgTnt = msg.content;
+        const msgStr = msgTnt.split(" ");
 
         if (msg.content === '/캐릭터정보') {
             msg.channel.send("캐릭터 닉네임을 정확하게 입력해 주세요.");
