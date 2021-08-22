@@ -9,8 +9,7 @@ const request = require('request'),
 let count = 0;
 let switching_boos = false;
 
-const msgTnt = msg.content;
-const msgStr = msgTnt.split(" ");
+
 
 let tagArr = [];
 let noticeArr0 = [];
@@ -45,6 +44,10 @@ client.on('message', (msg) => {
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         const day_toString = ( ) => {
+
+            const msgTnt = msg.content;
+            const msgStr = msgTnt.split(" ");
+            
             if (dayGet === 0) {
                 const data_A = dayList[6];
                 return data_A;
