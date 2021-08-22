@@ -32,6 +32,10 @@ client.on('ready', () => {
 
 client.on('message', (msg) => {
     try {
+
+        const msgTnt = msg.content;
+        const msgStr = msgTnt.split(" ");
+
         const timezoneGet = new Date();
         const timezoneGet_time = timezoneGet.getTime();
         const timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
@@ -113,9 +117,6 @@ client.on('message', (msg) => {
         if (msg.content === '/메이플공지') {
             getNotice(msg);
         }
-
-        const msgTnt = msg.content;
-        const msgStr = msgTnt.split(" ");
 
         if (msg.content === '/캐릭터정보') {
             msg.channel.send("캐릭터 닉네임을 정확하게 입력해 주세요.");
