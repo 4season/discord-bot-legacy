@@ -7,7 +7,7 @@ const request = require('request'),
 
 
 let count = 0;
-let switching_boos = false;
+let switching_time = false;
 
 
 
@@ -40,11 +40,14 @@ client.on('message', (msg) => {
         const timezoneGet_time = timezoneGet.getTime();
         const timezoneSet = timezoneGet.setTime(timezoneGet_time+(9*60*60*1000));
         const timeFormat_KST = new Date(timezoneSet);
+        const yearGet = timeFormat_KST.getFullYear();
         const monthGet = timeFormat_KST.getMonth();
         const dateGet = timeFormat_KST.getDate();
         const dayGet = timeFormat_KST.getDay();
         const hourGet = timeFormat_KST.getHours();
         const minuteGet = timeFormat_KST.getMinutes();
+        const secondGet = timeFormat_KST.getSeconds();
+        const millisecondGet = timeFormat_KST.getMilliseconds();
 
         const dayList = ["월", "화", "수", "목", "금", "토", "일"]; //1, 2, 3, 4, 5, 6, 0
         const day_toString = ( ) => {
@@ -70,43 +73,41 @@ client.on('message', (msg) => {
                 {name: `'/무한~'`, value: '테스트용으로 만든 명령어', inline: false},
                 {name: `'/메이플공지'`, value: '메이플 공지사항의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
                 {name: `'/메이플이벤트'` , value: '메이플 이벤트의 첫페이지에 해당하는 정보를 가져옵니다.', inline: false},
-                {name: `'/길보알림 ON/OFF'`, value: '매일 오후 11시50분에 알리는 길드알림을 설정합니다.', inline: false});
+                {name: `'/시간알림 ON/OFF'`, value: '매일 오후 12시에 년, 월, 일, 요일 등을 알리는 알림을 설정합니다.', inline: false});
             msg.channel.send(msgEmbed);
         }
 
         if (msg.content === "/무한~") {
             //msg.channel.send('@everyone');
-            msg.channel.send(`현재시각 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 입니다.`);
+            msg.channel.send(`현재시각 ${yearGet}년 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 ${hourGet}시 ${minuteGet}분 ${secondGet}초 입니다.`);
             msg.channel.send(typeof day_toString);
             //msg.channel.send(`${timeSet} 그리고 ${ctuSet}`);
             msg.reply("무~야호~!");
         }
 
-        if (msg.content === "/길보알림") {
+        if (msg.content === "/시간알림") {
             msg.reply("ON / OFF 로 설정을 변경하실수 있습니다.");
-            msg.reply(`현제상태 '${switching_boos}'`);
-        } else if (msgStr[0] === "/길보알림" && msgStr[1] === 'ON') {
-            if (switching_boos === true) {
-                msg.reply("길드보스 알림기능이 이미 설정된 상태 입니다.");
+            msg.reply(`현제상태 '${switching_time}'`);
+        } else if (msgStr[0] === "/시간알림" && msgStr[1] === 'ON') {
+            if (switching_time === true) {
+                msg.reply("시간 알림기능이 이미 설정된 상태 입니다.");
             } else {
-                switching_boos = true;
-                msg.reply("길드보스 알림기능이 설정되었습니다.");
+                switching_time = true;
+                msg.reply("시간 알림기능이 설정되었습니다.");
             }
-        } else if (msgStr[0] === "/길보알림" && msgStr[1] === 'OFF') {
-            if (switching_boos === false) {
-                msg.reply("길드보스 알림기능이 이미 해제된 상태 입니다.");
+        } else if (msgStr[0] === "/시간알림" && msgStr[1] === 'OFF') {
+            if (switching_time === false) {
+                msg.reply("시간 알림기능이 이미 해제된 상태 입니다.");
             } else {
-                switching_boos = false;
-                msg.reply("길드보스 알림기능이 해제되었습니다.");
+                switching_time = false;
+                msg.reply("시간 알림기능이 해제되었습니다.");
             }
         }
 
-        if (switching_boos === true) {
-            if (hourGet === 23 && minuteGet === 50) {
+        if (switching_time === true) {
+            if (hourGet === 12 && minuteGet === 0 && secondGet === 0 && millisecondGet === 0) {
                 msg.channel.send('@everyone');
-                msg.channel.send(`오늘은 ${day_toString()}요일!! /n 내일이 되기 10분 전이에요~`);
-                msg.channel.send("못하신 메할일이 있는지 확인하시고, 12시 이후 길보를 준비해주세요!");
-                msg.channel.send("길보장소는 20세이상채널 루타비스 입니다.");
+                msg.channel.send(`오늘은 ${yearGet}년 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 입니다.`);
             }
         }
 
