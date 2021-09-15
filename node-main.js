@@ -89,6 +89,9 @@ client.on('message', (msg) => {
         fs.readFile('/Data/switchTime.json', 'utf-8', function(err, data) {
             if (switching_time === " ") {
                 switching_time.push(data);
+            } else {
+                switching_time.splice(0, switching_time.length);
+                switching_time.push(data);
             }
         });
 
