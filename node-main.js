@@ -65,7 +65,7 @@ client.on('message', (msg) => {
 
         if (msg.content === '/명령어목록') {
             const msgEmbed = new Discord.MessageEmbed();
-            msgEmbed.setColor('9461ee');
+            msgEmbed.setColor('eeac05');
             msgEmbed.setTitle('명령어 목록');
             msgEmbed.setDescription('사용 가능한 명령어 목록입니다. \n\u200B');
             msgEmbed.addFields(
@@ -174,7 +174,7 @@ const getNotice = (msg) => {
 const emdFor_Notice = (msg) => {
     try {
         const msgEmbed = new Discord.MessageEmbed();
-        msgEmbed.setColor('9461ee');
+        msgEmbed.setColor('eeac05');
         msgEmbed.setTitle('공지사항 결과');
         msgEmbed.setDescription(`최근 공지사항 ${tagArr.length}개 항목을 가져옵니다.\n\u200B`);
 
@@ -240,7 +240,7 @@ const getEvent = (msg) => {
 const emdFor_Event = (msg) => {
     try {
         const msgEmbed = new Discord.MessageEmbed();
-        msgEmbed.setColor('9461ee');
+        msgEmbed.setColor('eeac05');
         msgEmbed.setTitle('이벤트 결과');
         msgEmbed.setDescription(`최근 이벤트 ${tagArr0.length}개 항목을 가져옵니다.\n\u200B`);
 
