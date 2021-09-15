@@ -14,6 +14,7 @@
     "cheerio": "^1.0.0-rc.9",
     "iconv-lite": "^0.6.3",
     "jschardet": "^3.0.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "fs": "0.0.1-security"
   }
 }
