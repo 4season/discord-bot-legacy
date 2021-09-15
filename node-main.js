@@ -86,7 +86,7 @@ client.on('message', (msg) => {
             msg.reply("무~야호~!");
         }
 
-        fs.readFile('/Data/switchTime.js', 'utf-8', function(err, data) {
+        fs.readFile('/Data/switchTime.json', 'utf-8', function(err, data) {
             if (switching_time === " ") {
                 switching_time.push(data);
             }
@@ -100,7 +100,7 @@ client.on('message', (msg) => {
                 msg.reply("시간 알림기능이 이미 설정된 상태 입니다.");
             } else {
                 switching_time[0].switch = true;
-                fs.writeFileSync('/Data/switchTime.js','{ "switch": true }');
+                fs.writeFileSync('/Data/switchTime.json','{ "switch": true }');
                 msg.reply("시간 알림기능이 설정되었습니다.");
             }
         } else if (msgStr[0] === "/시간알림" && msgStr[1] === 'OFF') {
@@ -108,7 +108,7 @@ client.on('message', (msg) => {
                 msg.reply("시간 알림기능이 이미 해제된 상태 입니다.");
             } else {
                 switching_time[0].switch = false;
-                fs.writeFileSync('/Data/switchTime.js','{ "switch": false }');
+                fs.writeFileSync('/Data/switchTime.json','{ "switch": false }');
                 msg.reply("시간 알림기능이 해제되었습니다.");
             }
         }
