@@ -11,7 +11,6 @@ let count = 0;
 let switching_time = [];
 
 
-
 let tagArr = [];
 let noticeArr0 = [];
 let noticeArr1 = [];
