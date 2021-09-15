@@ -2,12 +2,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 const request = require('request'),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    fs = require('fs');
     //iconv = require('iconv-lite');
 
 
 let count = 0;
-let switching_time = false;
+let switching_time = [];
 
 
 
@@ -85,26 +86,34 @@ client.on('message', (msg) => {
             msg.reply("무~야호~!");
         }
 
+        fs.readFile('/Data/switchTime.txt', 'utf-8', function(err, data) {
+            if (switching_time === " ") {
+                switching_time.push(data);
+            }
+        });
+
         if (msg.content === "/시간알림") {
             msg.reply("ON / OFF 로 설정을 변경하실수 있습니다.");
-            msg.reply(`현제상태 '${switching_time}'`);
+            msg.reply(`현제상태 '${switching_time[0].switch}'`);
         } else if (msgStr[0] === "/시간알림" && msgStr[1] === 'ON') {
-            if (switching_time === true) {
+            if (switching_time[0].switch === true) {
                 msg.reply("시간 알림기능이 이미 설정된 상태 입니다.");
             } else {
-                switching_time = true;
+                switching_time[0].switch = true;
+                fs.writeFileSync('/Data/switchTime.txt','{ "switch": true }');
                 msg.reply("시간 알림기능이 설정되었습니다.");
             }
         } else if (msgStr[0] === "/시간알림" && msgStr[1] === 'OFF') {
-            if (switching_time === false) {
+            if (switching_time[0].switch === false) {
                 msg.reply("시간 알림기능이 이미 해제된 상태 입니다.");
             } else {
-                switching_time = false;
+                switching_time[0].switch = false;
+                fs.writeFileSync('/Data/switchTime.txt','{ "switch": false }');
                 msg.reply("시간 알림기능이 해제되었습니다.");
             }
         }
 
-        if (switching_time === true) {
+        if (switching_time[0].switch === true) {
             if (hourGet === 12 && minuteGet === 0 && secondGet === 0 && millisecondGet === 0) {
                 msg.channel.send('@everyone');
                 msg.channel.send(`오늘은 ${yearGet}년 ${monthGet+1}월 ${dateGet}일 ${day_toString()}요일 입니다.`);
