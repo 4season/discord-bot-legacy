@@ -1,1 +1,1 @@
-# discord-bot-for-laivia
+# discord-bot-legacy
